@@ -12,3 +12,9 @@ class TestDataFrameCreation:
         with pytest.raises(TypeError):
             po.DataFrame({"hello": np.ndarray([[1]])})
 
+    def test_input_lengths(self):
+        with pytest.raises(ValueError):
+            po.DataFrame({"a": np.array([1, 2, 3]), "b": np.array([1, 2])})
+
+        po.DataFrame({"a": np.array([1, 2, 3]), "b": np.array([1, 2, 3])})
+

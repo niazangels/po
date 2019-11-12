@@ -7,7 +7,7 @@ class DataFrame:
             A DataFrame has 2 dimensional heterogenous data.
         """
         self._check_input_types(data)
-        pass
+        self._check_input_lengths(data)
 
     def _check_input_types(self, data):
         if not isinstance(data, dict):
@@ -27,4 +27,13 @@ class DataFrame:
             if v.ndim != 1:
                 raise TypeError(
                     f"All values of `data` should be 1 dimensional. Got {v.ndim} for {v}"
+                )
+
+    def _check_input_lengths(self, data):
+        for i, value in enumerate(data.values()):
+            if i == 0:
+                length = len(value)
+            elif len(value) != length:
+                raise ValueError(
+                    f"values of `data` should be of same length. Got {len(value)} and {length}"
                 )
