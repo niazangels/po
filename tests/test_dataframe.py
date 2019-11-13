@@ -71,3 +71,8 @@ class TestDataFrameSelection:
             df["invalid_column"]
         assert_df_equals(df["a"], po.DataFrame({"a": a}))
 
+    def test_get_multiple_column(self):
+        with pytest.raises(ValueError):
+            df[["a", "car"]]
+        assert_df_equals(df[["a", "b", "c", "d", "e"]], df)
+

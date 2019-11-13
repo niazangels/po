@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List, Union
 
 
 class DataFrame:
@@ -102,11 +103,22 @@ class DataFrame:
             }
         )
 
-    def __getitem__(self, index: str):
+    def __getitem__(self, index: Union[str, List[str]]):
         if isinstance(index, str):
             return self._get_single_column(index)
+        elif isinstance(index, list):
+            return self._get_multiple_columns(index)
 
     def _get_single_column(self, index: str):
         if not index in self.columns:
             raise ValueError(f"`{index}` not found in columns: {self.columns}")
         return DataFrame({index: self._data[index]})
+
+    def _get_multiple_columns(self, indexes: List[str]):
+        data = {}
+        for column in indexes:
+            if column not in self.columns:
+                raise ValueError(f"`{column}` not found in columns: {self.columns}")
+            else:
+                data[column] = self._data[column]
+        return DataFrame(data)
