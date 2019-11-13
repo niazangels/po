@@ -46,3 +46,4 @@ class TestDataFrameCreation:
             df.columns = [1, 2, 3, 4, 5]
         with pytest.raises(ValueError):
             df.columns = ["1", "3", "3", "4", "5"]
+        df.columns = ["1", "2", "3", "4", "5"]

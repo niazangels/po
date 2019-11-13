@@ -76,7 +76,4 @@ class DataFrame:
         if len(set(col_names)) < len(col_names):
             raise ValueError("`col_names` should not contain duplicates.")
 
-        new_data = {}
-        for (col_name, (k, v)) in (col_names, self._data.items()):
-            new_data[col_name] = v
-        self._data = new_data
+        self._data = dict(zip(col_names, self._data.values()))
