@@ -64,3 +64,10 @@ class TestDataFrameCreation:
         df_answer = po.DataFrame({"column_name": cols, "dtype": dtypes})
         assert_df_equals(df_result, df_answer)
 
+
+class TestDataFrameSelection:
+    def test_get_single_column(self):
+        with pytest.raises(ValueError):
+            df["invalid_column"]
+        assert_array_equal(df["a"], a)
+

@@ -102,3 +102,11 @@ class DataFrame:
             }
         )
 
+    def __getitem__(self, index: str):
+        if isinstance(index, str):
+            return self._get_single_column(index)
+
+    def _get_single_column(self, index: str):
+        if not index in self.columns:
+            raise ValueError(f"`{index}` not found in columns: {self.columns}")
+        return self._data[index]
