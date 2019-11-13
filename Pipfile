@@ -9,6 +9,7 @@ verify_ssl = true
 jupyter = "*"
 pytest = "*"
 numpy = "*"
+prettytable = "*"
 
 [requires]
 python_version = "3.6"

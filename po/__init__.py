@@ -1,4 +1,5 @@
 import numpy as np
+from prettytable import PrettyTable
 from typing import List, Union
 
 DTYPES = {"O": "string", "i": "int", "f": "float", "b": "bool"}
@@ -91,6 +92,12 @@ class DataFrame:
         """
         pass
 
+    def __repr__(self):
+        x = PrettyTable()
+        for k, v in self._data.items():
+            x.add_column(k, v)
+        return x.get_string()
+
     @property
     def values(self):
         return np.stack(list(self._data.values()))
@@ -111,6 +118,11 @@ class DataFrame:
             return self._get_multiple_columns(index)
         elif isinstance(index, DataFrame):
             return self._get_subdataframe(index)
+        elif isinstance(index, tuple):
+            return self._get_multiple_selection(index)
+        raise TypeError(
+            f"Must pass either a [`str`, `list`, `DataFrame`, `tuple`] - got {type(index)} instead."
+        )
 
     def _get_single_column(self, index: str):
         if not index in self.columns:
@@ -139,3 +151,31 @@ class DataFrame:
         return DataFrame(
             {col_name: value[array] for col_name, value in self._data.items()}
         )
+
+    def _get_multiple_selection(self, indexes):
+        if len(indexes) != 2:
+            raise ValueError(
+                f"Must pass in a tuple of length 2- got {len(indexes)} instead"
+            )
+        row_selection, col_selection = indexes
+        if isinstance(row_selection, int):
+            row_selection = [row_selection]
+        if isinstance(col_selection, int):
+            col_selection = self.columns[col_selection]
+        elif isinstance(col_selection, str):
+            col_selection = [col_selection]
+
+        data = {}
+        for col in col_selection:
+            data[col] = self._data[col][row_selection]
+
+        return DataFrame(data)
+
+
+if __name__ == "__main__":
+    a = np.array(["a", "b", "c"])
+    b = np.array(["c", "d", None])
+    c = np.random.rand(3)
+    d = np.array([True, False, True])
+    e = np.array([1, 2, 3])
+    df = DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
