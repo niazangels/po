@@ -90,6 +90,5 @@ class DataFrame:
 
     @property
     def values(self):
-        return np.stack(self._data.values())
-        # return np.stack(list(self._data.values()))
+        return np.stack(listself._data.values()))
 
