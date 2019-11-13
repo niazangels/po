@@ -90,5 +90,5 @@ class DataFrame:
 
     @property
     def values(self):
-        return np.array(self._data.values())
+        return np.stack(list(self._data.values()))
 
