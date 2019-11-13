@@ -89,3 +89,14 @@ class TestDataFrameSelection:
     def test_single_element(self):
         assert_df_equals(df[1, 3], po.DataFrame({"d": np.array([False])}))
 
+    def test_multiple_row(self):
+        # TODO: raises errors
+        expected_df = po.DataFrame({"a": np.array(["b", "c"])})
+        assert_df_equals(df[[1, 2], 0], expected_df)
+        assert_df_equals(df[[1, 2], "a"], expected_df)
+        assert_df_equals(df[1:3, "a"], expected_df)
+        assert_df_equals(df[1:3, 0], expected_df)
+        filt = po.DataFrame({"f": np.array([False, True, True])})
+        assert_df_equals(df[filt, "a"], expected_df)
+        assert_df_equals(df[filt, 0], expected_df)
+

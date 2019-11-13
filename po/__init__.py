@@ -160,6 +160,20 @@ class DataFrame:
         row_selection, col_selection = indexes
         if isinstance(row_selection, int):
             row_selection = [row_selection]
+        elif isinstance(row_selection, DataFrame):
+            if row_selection.shape[1] != 1:
+                raise ValueError(
+                    f"Row selection DataFrame should be single column- got {row_selection.shape[1]} instead"
+                )
+            row_selection = next(iter(row_selection._data.values()))
+            if row_selection.dtype.kind != "b":
+                raise TypeError(
+                    f"Row selection DataFrame should be of type `bool`- got {DTYPES[row_selection.dtype.kind]} instead"
+                )
+        elif not isinstance(row_selection, (list, slice)):
+            raise TypeError(
+                f"Row selection must be of one of the types [`list`, `slice`, `DataFrame`, `int`] - got {type(row_selection)} instead."
+            )
         if isinstance(col_selection, int):
             col_selection = self.columns[col_selection]
         elif isinstance(col_selection, str):
