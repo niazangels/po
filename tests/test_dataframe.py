@@ -47,3 +47,8 @@ class TestDataFrameCreation:
         with pytest.raises(ValueError):
             df.columns = ["1", "3", "3", "4", "5"]
         df.columns = ["1", "2", "3", "4", "5"]
+
+    def test_shape(self):
+        data = {"a": a, "b": b, "c": c, "d": d, "e": e}
+        df = po.DataFrame(data)
+        assert df.shape == (len(a), len(data))

@@ -77,3 +77,8 @@ class DataFrame:
             raise ValueError("`col_names` should not contain duplicates.")
 
         self._data = dict(zip(col_names, self._data.values()))
+
+    @property
+    def shape(self):
+        return (self.__len__(), len(self._data))
+
