@@ -8,6 +8,7 @@ class DataFrame:
         """
         self._check_input_types(data)
         self._check_input_lengths(data)
+        self._data = self._convert_unicode_to_object(data)
 
     def _check_input_types(self, data):
         if not isinstance(data, dict):
@@ -37,3 +38,18 @@ class DataFrame:
                 raise ValueError(
                     f"values of `data` should be of same length. Got {len(value)} and {length}"
                 )
+
+    def _convert_unicode_to_object(self, data):
+        """
+            a = np.array(['apple', 'ball', 'cat'])
+            a[1] = None
+            a = np.array(['apple', 'None', 'cat'])
+        """
+        converted_data = {}
+
+        for k, v in data.items():
+            if v.dtype.kind == "U":
+                converted_data[k] = v.astype("object")
+            else:
+                converted_data[k] = v
+        return converted_data
