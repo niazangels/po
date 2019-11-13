@@ -64,13 +64,17 @@ class DataFrame:
     @columns.setter
     def columns(self, col_names):
         if not isinstance(col_names, list):
-            raise TypeError
+            raise TypeError(
+                f"`col_names` should be of type list- got {type(col_names)} instead."
+            )
         if len(col_names) != len(self._data.keys()):
-            raise ValueError
+            raise ValueError(
+                "`col_names` should be of length {len(self._data.keys())}- got {len(col_names) instead.}"
+            )
         if not all((isinstance(x, str) for x in col_names)):
-            raise TypeError
+            raise TypeError("All column names should be of type `str`.")
         if len(set(col_names)) < len(col_names):
-            raise ValueError
+            raise ValueError("`col_names` should not contain duplicates.")
 
         new_data = {}
         for (col_name, (k, v)) in (col_names, self._data.items()):
