@@ -1,12 +1,14 @@
 import po
 import numpy as np
 import pytest
+from numpy.testing import assert_array_equal
 
 a = np.array(["a", "b", "c"])
 b = np.array(["c", "d", None])
 c = np.random.rand(3)
 d = np.array([True, False, True])
 e = np.array([1, 2, 3])
+df = po.DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
 
 
 class TestDataFrameCreation:
@@ -33,11 +35,9 @@ class TestDataFrameCreation:
         assert len(df) == len(a)
 
     def test_columns_getter(self):
-        df = po.DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
         assert df.columns == list("abcde")
 
     def test_columns_setter(self):
-        df = po.DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
         with pytest.raises(TypeError):
             df.columns = "invalid"
         with pytest.raises(ValueError):
@@ -49,6 +49,7 @@ class TestDataFrameCreation:
         df.columns = ["1", "2", "3", "4", "5"]
 
     def test_shape(self):
-        data = {"a": a, "b": b, "c": c, "d": d, "e": e}
-        df = po.DataFrame(data)
-        assert df.shape == (len(a), len(data))
+        assert df.shape == (len(a), len(df._data))
+
+    # def test_shape(self):
+    #     assert df.values == np.stack([a, b])

@@ -82,3 +82,13 @@ class DataFrame:
     def shape(self):
         return (self.__len__(), len(self._data))
 
+    def _repr_html_(self):
+        """
+            A nice visual representation of the df for Jupyter Notebooks
+        """
+        pass
+
+    @property
+    def values(self):
+        return np.array(self._data.values())
+
