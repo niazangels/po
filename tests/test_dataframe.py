@@ -85,3 +85,7 @@ class TestDataFrameSelection:
 
         index_df = po.DataFrame({"selection": np.ones(len(a)).astype("bool")})
         assert_df_equals(df[index_df], df)
+
+    def test_single_element(self):
+        assert_df_equals(df[1, 3], po.DataFrame({"d": np.array([False])}))
+
