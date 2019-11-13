@@ -55,5 +55,4 @@ class DataFrame:
         return converted_data
 
     def __len__(self):
-        for value in self._data.values():
-            return len(value)
+        return len(next(iter(self._data.values())))
