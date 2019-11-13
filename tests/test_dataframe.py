@@ -69,5 +69,5 @@ class TestDataFrameSelection:
     def test_get_single_column(self):
         with pytest.raises(ValueError):
             df["invalid_column"]
-        assert_array_equal(df["a"], a)
+        assert_df_equals(df["a"], po.DataFrame({"a": a}))
 

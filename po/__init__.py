@@ -109,4 +109,4 @@ class DataFrame:
     def _get_single_column(self, index: str):
         if not index in self.columns:
             raise ValueError(f"`{index}` not found in columns: {self.columns}")
-        return self._data[index]
+        return DataFrame({index: self._data[index]})
