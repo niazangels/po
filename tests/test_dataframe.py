@@ -28,3 +28,7 @@ class TestDataFrameCreation:
         df = po.DataFrame({"a": a})
         assert df._data["a"].dtype == "object"
 
+    def test_dunder_len(self):
+        df = po.DataFrame({"a": a})
+        assert len(df) == len(a)
+

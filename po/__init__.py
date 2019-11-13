@@ -53,3 +53,7 @@ class DataFrame:
             else:
                 converted_data[k] = v
         return converted_data
+
+    def __len__(self):
+        for value in self._data.values():
+            return len(value)
