@@ -51,5 +51,6 @@ class TestDataFrameCreation:
     def test_shape(self):
         assert df.shape == (len(a), len(df._data))
 
-    # def test_shape(self):
-    #     assert df.values == np.stack([a, b])
+    def test_values(self):
+        assert_array_equal(df.values, np.array([a, b, c, d, e]))
+
