@@ -76,3 +76,12 @@ class TestDataFrameSelection:
             df[["a", "car"]]
         assert_df_equals(df[["a", "b", "c", "d", "e"]], df)
 
+    def test_get_sub_dataframe(self):
+        with pytest.raises(ValueError):
+            df[df]
+        with pytest.raises(TypeError):
+            df_index = po.DataFrame({"a": a})
+            df[df_index]
+
+        index_df = po.DataFrame({"selection": np.ones(len(a)).astype("bool")})
+        assert_df_equals(df[index_df], df)

@@ -1,6 +1,8 @@
 import numpy as np
 from typing import List, Union
 
+DTYPES = {"O": "string", "i": "int", "f": "float", "b": "bool"}
+
 
 class DataFrame:
     def __init__(self, data):
@@ -95,7 +97,6 @@ class DataFrame:
 
     @property
     def dtypes(self):
-        DTYPES = {"O": "string", "i": "int", "f": "float", "b": "bool"}
         return DataFrame(
             {
                 "column_name": np.array(list(self._data.keys())),
@@ -108,6 +109,8 @@ class DataFrame:
             return self._get_single_column(index)
         elif isinstance(index, list):
             return self._get_multiple_columns(index)
+        elif isinstance(index, DataFrame):
+            return self._get_subdataframe(index)
 
     def _get_single_column(self, index: str):
         if not index in self.columns:
@@ -122,3 +125,17 @@ class DataFrame:
             else:
                 data[column] = self._data[column]
         return DataFrame(data)
+
+    def _get_subdataframe(self, index_df):
+        if not index_df.shape[1] == 1:
+            raise ValueError(
+                f"Indexing is supported only for single column DataFrames- got {len(self.columns)}"
+            )
+        array = next(iter(index_df._data.values()))
+        if array.dtype.kind != "b":
+            raise TypeError(
+                f"Indexing is supported only for DataFrames of dtype `bool`- got {DTYPES[array.dtype.kind]}"
+            )
+        return DataFrame(
+            {col_name: value[array] for col_name, value in self._data.items()}
+        )
