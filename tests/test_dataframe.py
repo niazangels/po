@@ -2,6 +2,7 @@ import po
 import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
+from tests import assert_df_equals
 
 a = np.array(["a", "b", "c"])
 b = np.array(["c", "d", None])
@@ -47,10 +48,19 @@ class TestDataFrameCreation:
         with pytest.raises(ValueError):
             df.columns = ["1", "3", "3", "4", "5"]
         df.columns = ["1", "2", "3", "4", "5"]
+        df.columns = ["a", "b", "c", "d", "e"]
 
     def test_shape(self):
         assert df.shape == (len(a), len(df._data))
 
     def test_values(self):
         assert_array_equal(df.values, np.array([a, b, c, d, e]))
+
+    def test_dtypes(self):
+        cols = np.array(["a", "b", "c", "d", "e"], dtype="O")
+        dtypes = np.array(["string", "string", "float", "bool", "int"], dtype="O")
+
+        df_result = df.dtypes
+        df_answer = po.DataFrame({"column_name": cols, "dtype": dtypes})
+        assert_df_equals(df_result, df_answer)
 

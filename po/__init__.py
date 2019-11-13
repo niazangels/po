@@ -90,5 +90,15 @@ class DataFrame:
 
     @property
     def values(self):
-        return np.stack(listself._data.values()))
+        return np.stack(list(self._data.values()))
+
+    @property
+    def dtypes(self):
+        DTYPES = {"O": "string", "i": "int", "f": "float", "b": "bool"}
+        return DataFrame(
+            {
+                "column_name": np.array(list(self._data.keys())),
+                "dtype": np.array([DTYPES[v.dtype.kind] for v in self._data.values()]),
+            }
+        )
 
