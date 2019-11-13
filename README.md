@@ -19,7 +19,7 @@ _A pandas-like from scratch in Python_
 There's a good chance I will improve my software engineering skills.
 
 And just like with [Bloo](https://github.com/niazangels/bloo), it gives me another shot at the following:
-- [ ] enforce myself to go the test driven development way
-- [ ] raise error messages that tell you exactly what's wrong
+- [x] enforce myself to go the test driven development way
+- [x] raise error messages that tell you exactly what's wrong
 - [ ] practicing writing plenty of docstrings
 - [ ] add type hinting wherever possible
