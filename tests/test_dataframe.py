@@ -32,3 +32,17 @@ class TestDataFrameCreation:
         df = po.DataFrame({"a": a})
         assert len(df) == len(a)
 
+    def test_columns_getter(self):
+        df = po.DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
+        assert df.columns == list("abcde")
+
+    def test_columns_setter(self):
+        df = po.DataFrame({"a": a, "b": b, "c": c, "d": d, "e": e})
+        with pytest.raises(TypeError):
+            df.columns = "invalid"
+        with pytest.raises(ValueError):
+            df.columns = ["1", "2", "3"]
+        with pytest.raises(TypeError):
+            df.columns = [1, 2, 3, 4, 5]
+        with pytest.raises(ValueError):
+            df.columns = ["1", "3", "3", "4", "5"]

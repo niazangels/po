@@ -56,3 +56,23 @@ class DataFrame:
 
     def __len__(self):
         return len(next(iter(self._data.values())))
+
+    @property
+    def columns(self):
+        return list(self._data.keys())
+
+    @columns.setter
+    def columns(self, col_names):
+        if not isinstance(col_names, list):
+            raise TypeError
+        if len(col_names) != len(self._data.keys()):
+            raise ValueError
+        if not all((isinstance(x, str) for x in col_names)):
+            raise TypeError
+        if len(set(col_names)) < len(col_names):
+            raise ValueError
+
+        new_data = {}
+        for (col_name, (k, v)) in (col_names, self._data.items()):
+            new_data[col_name] = v
+        self._data = new_data
