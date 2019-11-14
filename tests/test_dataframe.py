@@ -124,3 +124,5 @@ class TestDataFrameSelection:
         assert_df_equals(df[[0, 2], [3, 4]], expected_df)
         assert_df_equals(df[[0, 2], -2:], expected_df)
 
+    def test_key_completion(self):
+        assert df._ipython_key_completions_() == df.columns

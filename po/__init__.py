@@ -210,6 +210,12 @@ class DataFrame:
 
         return DataFrame(data)
 
+    def _ipython_key_completions_(self):
+        """
+            Tab completion for column indexing in Jupyter
+        """
+        return self.columns
+
 
 if __name__ == "__main__":
     a = np.array(["a", "b", "c"])
