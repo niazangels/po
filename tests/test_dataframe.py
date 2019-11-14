@@ -91,12 +91,36 @@ class TestDataFrameSelection:
 
     def test_multiple_row(self):
         # TODO: raises errors
+        filt = po.DataFrame({"f": np.array([False, True, True])})
+
+        expected_df = po.DataFrame({"a": np.array(["b"])})
+        assert_df_equals(df[1, 0], expected_df)
+
+        # Row selection variants
+
+        with pytest.raises(TypeError):
+            _ = df["0", 0]
+
+        expected_df = po.DataFrame({"a": np.array(["a"])})
+        assert_df_equals(df[0, 0], expected_df)
+
         expected_df = po.DataFrame({"a": np.array(["b", "c"])})
         assert_df_equals(df[[1, 2], 0], expected_df)
-        assert_df_equals(df[[1, 2], "a"], expected_df)
-        assert_df_equals(df[1:3, "a"], expected_df)
         assert_df_equals(df[1:3, 0], expected_df)
-        filt = po.DataFrame({"f": np.array([False, True, True])})
-        assert_df_equals(df[filt, "a"], expected_df)
         assert_df_equals(df[filt, 0], expected_df)
+
+        # Col selection variants
+        with pytest.raises(TypeError):
+            _ = df[0, 0.2]
+
+        expected_df = po.DataFrame({"e": np.array([1, 3])})
+        assert_df_equals(df[[0, 2], "e"], expected_df)
+        assert_df_equals(df[[0, 2], 4], expected_df)
+
+        expected_df = po.DataFrame(
+            {"d": np.array([True, True]).astype(bool), "e": np.array([1, 3])}
+        )
+        assert_df_equals(df[[0, 2], ["d", "e"]], expected_df)
+        assert_df_equals(df[[0, 2], [3, 4]], expected_df)
+        assert_df_equals(df[[0, 2], -2:], expected_df)
 

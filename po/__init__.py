@@ -178,7 +178,32 @@ class DataFrame:
             col_selection = self.columns[col_selection]
         elif isinstance(col_selection, str):
             col_selection = [col_selection]
+        elif isinstance(col_selection, list):
+            new_col_selection = []
+            for col in col_selection:
+                if isinstance(col, int):
+                    new_col_selection.append(self.columns[col])
+                elif isinstance(col, str):
+                    new_col_selection.append(col)
+                else:
+                    raise TypeError(
+                        "Column selection list values should be of type [`str`, `int`]"
+                    )
+                col_selection = new_col_selection
+        elif isinstance(col_selection, slice):
+            start = col_selection.start
+            stop = col_selection.stop
+            step = col_selection.step  # could be None or str or int
+            if isinstance(start, str):
+                start = self.columns.index(start)
+            if isinstance(stop, str):
+                start = self.columns.index(stop) + 1
+            col_selection = self.columns[start:stop:step]
 
+        else:
+            raise TypeError(
+                "Column selection must be of type [`int`, `slice`, `list`, `str`]"
+            )
         data = {}
         for col in col_selection:
             data[col] = self._data[col][row_selection]
